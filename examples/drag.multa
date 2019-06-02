@@ -1,0 +1,17 @@
+.draggable {
+	drag: both;
+
+	&:dropped {
+		background: dodgerblue;
+	}
+}
+
+.drop-zone {
+	border: 2px solid transparent;
+
+	drop: .draggable;
+
+	&:dropped {
+		border: 2px solid dodgerblue;
+	}
+}
