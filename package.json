@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-parser": "pegjs -o src/parser/parser.js src/parser/parser.pegjs"
+	"build-parser": "pegjs -o src/parser/parser.js src/parser/parser.pegjs",
+	"build-docs": "documentation build src/** -f md -o docs/api.md"
   },
   "repository": {
     "type": "git",
