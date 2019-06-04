@@ -1,5 +1,5 @@
 const Parser = require("../parser/parser.js");
-const File = require("file.js");
+const File = require("./file.js");
 
 /**
  * @class Multa.Build
@@ -23,14 +23,31 @@ module.exports = class Build {
 	 * @param {path} path - Used for error parser reporting.
 	 */
 	addFile(fileAsString, path) {
-		let parsed = Parser.parse(fileAsString);
-		let file = new File(parsed, path);
-		this.files.push(file);
+		try {
+			let parsed = Parser.parse(fileAsString);
+			let file = new File(parsed, path);
+			this.files.push(file);
 
-		if (file.hadError) {
+			if (file.hadError) {
+				this.hadFatalError = true;
+				this.displayError = file.errors[0].display;
+				throw new Error(this.displayError);
+			}
+		}catch (pegError) {
+			// Construct blank file for generating error.
+			let file = new File([], path);
+
+			file.generateError(pegError.name + " " + pegError.message, pegError.location.start.line, pegError.location.start.column);
+
 			this.hadFatalError = true;
-			this.displayError = file.errors[0];
+			this.displayError = file.errors[0].display;
 			throw new Error(this.displayError);
+		}
+	}
+
+	process() {
+		for (let file of this.files) {
+			file.process();
 		}
 	}
 

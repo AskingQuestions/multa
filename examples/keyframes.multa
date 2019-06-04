@@ -1,0 +1,55 @@
+@keyframes animation {
+	10% {
+		.child-one {
+			transform: scale(1.2);
+		}
+
+		.child-two {
+			transform: scale(1.4);
+		}
+
+		.child-two {
+			transform: scale(1.6);
+		}
+	}
+
+	60% {
+		.child-one {
+			transform: scale(1.6);
+		}
+
+		.child-two {
+			transform: scale(1.4);
+		}
+
+		.child-two {
+			transform: scale(1.2);
+		}
+	}
+}
+
+.root-node {
+	animation: animation;
+}
+
+/* Outputs */
+
+@keyframes animation {
+
+}
+
+.root-node {
+	animation: animation;
+}
+
+.root-node .child-one {
+	animation: animation-child-one;
+}
+
+@keyframes animation-child-one {
+	10% {
+		transform: scale(1.2);
+	}
+}
+
+...

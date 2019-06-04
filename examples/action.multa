@@ -1,0 +1,49 @@
+@transform-number(@num) {
+	return: @num / 10 * 20;
+}
+
+.modal {
+	position: fixed;
+	z-index: @z.modal;
+	opacity: 0;
+	pointer-events: none;
+
+	transition: .3s @quart-in-out;
+
+	&:open {
+		pointer-events: all;
+		opacity: 1;
+		
+		top: 20%;
+		left: 20%;
+
+		bottom: 20%;
+		right: 20%;
+
+		transform: scale(@transform-number(@state.duration) / 2);
+	}
+
+	@state open {
+		@property: duration;
+	}
+
+	@action {
+		open {
+			&:open = true;
+		}
+
+		close {
+			&:open = false
+		}
+
+		toggle {
+			&:open = !&:open;
+		}
+	}
+}
+
+<div id="main-modal" class="modal">
+	Content
+</div>
+
+<button data-action="click|#main-modal@open">Open Modal</button>

@@ -1,6 +1,7 @@
-const CSSBuilder = require("cssBuilder.js");
-const JSBuilder = require("jsBuilder.js");
-const Build = require("build.js");
+const CSSBuilder = require("./cssBuilder.js");
+const JSBuilder = require("./jsBuilder.js");
+const Build = require("./build.js");
+const fs = require("fs");
 
 /**
  * @class Multa.Builder
@@ -10,9 +11,9 @@ module.exports = class Builder {
 	 * @param {Object} options
 	 */
 	constructor(options) {
-		this.config = Object.merge({
+		this.config = {};/* Object.merge({
 
-		}, options);
+		}, options);*/
 	}
 
 	/**
@@ -28,7 +29,9 @@ module.exports = class Builder {
 		let build = new Build(this.config);
 
 		for (let file of files) {
-			build.addFile(file.toString());
+			let raw = typeof file == "object" ? file.toString() : fs.readFileSync(file, "utf8");
+
+			build.addFile(raw, typeof file == "string" ? file : null);
 		}
 
 		return build;

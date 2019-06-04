@@ -8,9 +8,9 @@ _ = [\t\n\r ]*
 
 Rule = _ selector: Selector _ body: Body { return {type: "rule", body: body, selector: selector}; }
 
-Selector = val: $[^{};]* { return val.trim(); }
+Selector "Selector" = val: $[^{};]* { return val.trim(); }
 
-Property = name: $[^:}{]+ _ ":" _ values: ListValue+ _ ";" _ { return {type: "property", values: values, name: name}; }
+Property "Property" = name: $[^:}{]+ _ ":" _ values: ListValue+ _ ";" _ { return {type: "property", values: values, name: name}; }
 
 Body = "{" _ subs: (Rule / Property)* _ "}"
  {
