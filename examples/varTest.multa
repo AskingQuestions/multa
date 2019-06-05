@@ -1,0 +1,14 @@
+@var: 123;
+
+@small: (min-width: 100px and max-width: 900px);
+
+.abc {
+	prop: @var + 123 * 10;
+	abc: @small;
+}
+
+@media @small {
+	.sub {
+		free: 123;
+	}
+}

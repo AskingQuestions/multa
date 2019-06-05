@@ -6,7 +6,7 @@ module.exports = class Module {
 		this.build = build;
 	}
 
-	register() {
-		
+	initialize() {
+
 	}
 };

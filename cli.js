@@ -10,11 +10,12 @@ program
 	.description('...')
 	.action(function (file, output, cmd) {
 		let builder = new Multa.Builder();
+		builder.addModule(path.resolve("./src/modules/media.js"));
+
 		try {
 			let build = builder.build([file]);
 			build.process();
-			build.export(output + "/js.js");
-			build.export(output + "/css.css");
+			build.export(output + "/js.js", output + "/css.css");
 		}catch (e) {
 			console.log(e);
 		}

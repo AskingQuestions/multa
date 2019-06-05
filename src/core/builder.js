@@ -14,6 +14,16 @@ module.exports = class Builder {
 		this.config = {};/* Object.merge({
 
 		}, options);*/
+
+		this.modules = [];
+	}
+
+	addModule(mod) {
+		if (typeof mod == "string") {
+			this.modules.push(require(mod));
+		}else{
+			this.modules.push(mod);
+		}
 	}
 
 	/**
@@ -27,6 +37,9 @@ module.exports = class Builder {
 	 */
 	build(files) {
 		let build = new Build(this.config);
+
+		for (let mod of this.modules)
+			build.addModule(mod);
 
 		for (let file of files) {
 			let raw = typeof file == "object" ? file.toString() : fs.readFileSync(file, "utf8");

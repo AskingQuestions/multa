@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Launch Program",
 			"program": "${workspaceFolder}\\cli.js",
-			"args": ["generate", "./examples/drag.multa", "./output"]
+			"args": ["generate", "./examples/varTest.multa", "./output"]
 		}
 	]
 }

@@ -9,8 +9,10 @@ module.exports = class File {
 	 * @param {Object} parsed - Raw parsed object from the Peg.js parser.
 	 * @param {string} id - Identifier used for error generation. This is usually the file path.
 	 */
-	constructor(parsed, id) {
+	constructor(build, parsed, id) {
 		this.type = "file";
+
+		this.build = build;
 
 		this.parsed = parsed;
 		this.id = id;
@@ -23,18 +25,26 @@ module.exports = class File {
 
 		this.rules = [];
 		
-		for (let rule of this.parsed) {
-			this.rules.push(new Rule(rule, null, this));
+		for (let rule of this.parsed.roots) {
+			if (rule.type == "rule") {
+				this.rules.push(this.build.makeRule(this, rule));
+			}else if (rule.type == "property") {
+				let define = this.namespace.register(rule.name, this.namespace.evaluateExpression(rule.values[0]));
+				if (define.value.type == "query")
+					define.static = true;
+			}
 		}
 
-		this.process();
-
-		console.log(this.rules.map((rule) => rule.flatten()).join(""));
+		//this.process();
 	}
 
 	process() {
 		for (let rule of this.rules)
 			rule.process();
+	}
+
+	throwError(msg, line, column) {
+		throw new Error(msg + " at " + this.id + ":" + line + ":" + column);
 	}
 
 	generateError(msg, line, column) {
@@ -49,5 +59,9 @@ module.exports = class File {
 			},
 			display: msg + " at " + this.id + ":" + line + ":" + column
 		});
+	}
+
+	export() {
+		return this.rules.map((rule) => rule.flatten()).join("\n\n");
 	}
 }
